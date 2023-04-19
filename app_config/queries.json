@@ -1,0 +1,22 @@
+{
+  "query1": {
+    "sql": "SELECT controller, action, countIf(status = 'open') AS open_cnt, countIf(status = 'close') AS close_cnt FROM app.metrics WHERE published_ms >= toDateTime(now() - interval 1 hour) GROUP BY controller, action",
+    "metric_name": "edu_app_metrics_open_close_cnt",
+    "fields": ["controller", "action", "open_cnt", "close_cnt"]
+  },
+  "query2": {
+    "sql": "SELECT controller, action, status, message, count(1) AS cnt FROM app.metrics WHERE published_ms >= toDateTime(now() - interval 1 hour) AND status IN ('event') GROUP BY controller, action, status, message ORDER BY controller, action, status, message",
+    "metric_name": "edu_app_metrics_event_cnt",
+    "fields": ["controller", "action", "status", "message", "cnt"]
+  },
+  "query3": {
+    "sql": "SELECT controller, action, status, message, count(1) AS cnt FROM app.metrics WHERE published_ms >= toDateTime(now() - interval 1 hour) AND status IN ('error') GROUP BY controller, action, status, message ORDER BY controller, action, status, message",
+    "metric_name": "edu_app_metrics_error_cnt",
+    "fields": ["controller", "action", "status", "message", "cnt"]
+  },
+  "query4": {
+    "sql": "SELECT JSON_VALUE(extra, '$.host_name') AS host_name, count(1) AS cnt FROM app.metrics WHERE published_ms >= toDateTime(now() - interval 1 hour) GROUP BY host_name ORDER BY count(1) DESC",
+    "metric_name": "edu_app_metrics_host_cnt",
+    "fields": ["host_name", "cnt"]
+  }
+}

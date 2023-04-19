@@ -1,0 +1,17 @@
+Deploy clickhouse-sql-exporter:
+  stage: deploy
+  variables:
+    PROJECT_NAME: clickhouse-sql-exporter
+    PROJECT_PATH: cluster_metrics/clickhouse-sql-exporter
+    NAMESPACE: metric
+    PROJECT_NAME_IN_CLUSTER: clickhouse-sql-exporter
+  only:
+    changes:
+      - cluster_metrics/clickhouse-sql-exporter/**/*
+      - cluster_metrics/clickhouse-sql-exporter/*
+  script:
+    - cd ${CI_PROJECT_DIR}/${PROJECT_PATH}/.helm
+    - helm upgrade --install -n ${NAMESPACE} ${PROJECT_NAME_IN_CLUSTER} ./ -f ./values-${CI_COMMIT_BRANCH}.yaml
+  except: [schedules]
+  tags:
+    - ci-${CI_COMMIT_BRANCH}

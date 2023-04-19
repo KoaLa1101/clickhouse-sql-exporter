@@ -1,0 +1,18 @@
+{
+  "query2": {
+    "sql": "SELECT controller, action, status, message, count(1) AS cnt FROM app.metrics WHERE published_ms >= toDateTime( now() - interval 5 minute) AND published_ms < toDateTime(now() - interval 285 second) AND status IN ('event') GROUP BY controller, action, status, message ORDER BY controller, action, status, message",
+    "metric_name": "edu_app_metrics_event_cnt",
+    "fields": ["controller", "action", "status", "message", "cnt"]
+  },
+  "query3": {
+    "sql": "SELECT controller, action, status, message, count(1) AS cnt FROM app.metrics WHERE published_ms >= toDateTime( now() - interval 5 minute) AND published_ms < toDateTime(now() - interval 285 second) AND status IN ('error') GROUP BY controller, action, status, message ORDER BY controller, action, status, message",
+    "metric_name": "edu_app_metrics_error_cnt",
+    "fields": ["controller", "action", "status", "message", "cnt"]
+  },
+  "query4": {
+    "sql": "SELECT JSON_VALUE(extra, '$.host_name') AS host_name, status, count(1) AS cnt FROM app.metrics WHERE published_ms >= toDateTime( now() - interval 5 minute) AND published_ms < toDateTime(now() - interval 285 second) AND status in ('event', 'error') GROUP BY host_name, status ORDER BY count(1) DESC",
+    "metric_name": "edu_app_metrics_host_cnt",
+    "fields": ["host_name", "status", "cnt"]
+  }
+}
+

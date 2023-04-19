@@ -1,0 +1,8 @@
+{
+  "clickhouse": {
+    "url": "<CLICKHOUSE_HTTP_URL>",
+    "user": "<CLICKHOUSE_USER>",
+    "password": "<CLICKHOUSE_PASSWORD>",
+    "database": "<CLICKHOUSE_DEFAULT_DATABASE>"
+  }
+}

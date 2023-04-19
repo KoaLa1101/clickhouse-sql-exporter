@@ -1,0 +1,41 @@
+name: clickhouse-sql-exporter
+
+image:
+  registry: k8s-registry.b-m-z.ru
+  name: clickhouse-sql-exporter
+  tag: '1.1.2'
+  pullPolicy: IfNotPresent
+  pullSecrets:
+  - name: regcred
+
+deployment:
+  replicas: 1
+  additionalLabels: []
+  additionalAnnotations: []
+  ports:
+  - name: metrics
+    protocol: TCP
+    port: 9439
+  resources:
+    limits:
+      cpu: 100m
+      memory: 150Mi
+    requests:
+      cpu: 50m
+      memory: 50Mi
+
+configMap:
+  enabled: true
+
+config:
+  path: config
+
+service:
+  type: ClusterIP
+  ports:
+  - name: metrics
+    port: 9439
+    targetPort: metrics
+
+
+priorityClassName: "metrics-medium-priority"
